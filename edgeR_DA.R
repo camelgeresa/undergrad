@@ -3,7 +3,6 @@ library(ggplot2)
 library(dplyr)
 library(HDF5Array)
 
-
 tissue_counts <- loadHDF5SummarizedExperiment(tissue_dir)
 blood_counts <- loadHDF5SummarizedExperiment(blood_dir)
 
@@ -18,12 +17,16 @@ contrasts = makeContrasts(
   DrugvsNaproxen24h = drug.24h - naproxen.24h,
   DrugvsNaproxen48h = drug.48h - naproxen.48h,
   DrugvsNaproxen72h = drug.72h - naproxen.72h,
+  ControlvsNaproxen04h = control.4h - naproxen.4h,
+  ControlvsNaproxen24h = control.24h - naproxen.24h,
+  ControlvsNaproxen48h = control.48h - naproxen.48h,
+  ControlvsNaproxen72h = control.72h - naproxen.72h,
   levels = design)
 
 edgeR_function <- function(counts){
   contrasts_list <- c()
   results <- data.frame()
-  for (i in 1:8){
+  for (i in 1:12){
     temp_contrast <- contrasts[,i]
     contrast_name <- colnames(contrasts)[i]
     temp_contrast_val <- as.numeric(temp_contrast)
